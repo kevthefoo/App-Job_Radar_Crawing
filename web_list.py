@@ -1,7 +1,7 @@
 web_list = [
     {
         "name": "LinkedIn",
-        "url": "https://au.linkedin.com/"
+        "url": "https://www.linkedin.com/jobs/search/?keywords=software%20engineer&origin=JOBS_HOME_KEYWORD_AUTOCOMPLETE&refresh=true"
     },
     {
         "name": "Seek",
