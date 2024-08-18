@@ -5,7 +5,7 @@ web_list = [
     },
     {
         "name": "Seek",
-        "url": "https://www.seek.com.au/"
+        "url": "https://www.seek.com.au/Software-Developer-jobs"
     },
     {
         "name": "Indeed",

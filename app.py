@@ -1,8 +1,6 @@
 import time, subprocess, requests, os, json, config
 from web_list import web_list
 
-
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -11,7 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
 from src.linkedin import linkdedin
-
 
 # --------------------------------------Initialize Chrome--------------------------------------
 chrome_path = config.chrome_browser_path
@@ -29,11 +26,11 @@ driver.maximize_window()
 
 # --------------------------------------Go To The Target URL--------------------------------------
 
-
 def main():
     linkdedin(driver)
 
     print("System: Done")
 
 
-main()
+if __name__ == "__main__":
+    main()
