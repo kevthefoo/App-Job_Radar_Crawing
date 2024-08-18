@@ -1,6 +1,7 @@
-import time, subprocess, requests, os, json
+import time, subprocess, requests, os, json, config
 from web_list import web_list
-import config
+
+
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -9,6 +10,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
+from src.linkedin import linkdedin
+
+
+# --------------------------------------Initialize Chrome--------------------------------------
 chrome_path = config.chrome_browser_path
 user_profile_path = config.user_profile_path
 
@@ -24,13 +29,11 @@ driver.maximize_window()
 
 # --------------------------------------Go To The Target URL--------------------------------------
 
-while True:
-    for web in web_list:
-        inspect_url = web["url"]
-        driver.get(inspect_url)
 
-        
+def main():
+    linkdedin(driver)
 
+    print("System: Done")
 
 
-        time.sleep(5000)
+main()
