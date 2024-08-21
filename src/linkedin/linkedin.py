@@ -1,6 +1,7 @@
-import time, config
+import time, config, json
 
 from src.message import sendMessage
+from src.classify import locationClassify
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -9,6 +10,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
 URL = config.LINKEDIN
+
+def job_id_exists(job_id, file_path='./data/linkedin.json'):
+    with open(file_path, 'r') as f:
+        data = json.load(f)
+    if job_id in data:
+        print("System: Job ID already exists")
+        return True
+    else:
+        print("System: New Job ID found")
+        return False
 
 def linkdedin(driver):
     driver.get(URL)
@@ -34,9 +45,13 @@ def linkdedin(driver):
             print("System: Found", len(job_title_element), "Jobs")
             print("System: Found", len(side_bar_entry), "Jobs")
 
+    count = 0
     for job_entry in side_bar_entry:
         # Get the job ID
         job_id = job_entry.get_attribute("data-occludable-job-id")
+
+        if job_id_exists(job_id):
+            continue
 
         # Get the job title
         job_title_element = job_entry.find_element(By.CLASS_NAME, "job-card-list__title--link")
@@ -51,5 +66,44 @@ def linkdedin(driver):
         # Get the job location
         job_loaction = job_entry.find_element(By.CLASS_NAME, "artdeco-entity-lockup__caption").text.strip()
 
-        print("No.", side_bar_entry.index(job_entry)+1)
-        print("Job ID:", job_id, "\nJob Title:", job_title, "\nJob Location:", job_loaction, "\nCompany Name:", company_name, "\nJob URL:", job_url, "\n\n----------------------------------------")
+        new_data = {
+            "job_id": job_id,
+            "job_title": job_title,
+            "company_name": company_name,
+            "job_location": job_loaction,
+            "job_url": job_url,
+            "label":{
+                "state":"",
+                "city":"",
+                "title":"",
+                "language":"",
+                "framework":"",
+            },
+            "timestamp": int(time.time())
+        }
+
+        new_data =  locationClassify(new_data)
+
+        # Read existing data
+        try:
+            with open('./data/linkedin.json', 'r') as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            print("System: File not found. Creating a new file.")
+            return
+
+        # Add new data to the existing dictionary
+        data[job_id] = new_data
+
+        # Write updated data back to the file
+        with open('./data/linkedin.json', 'w') as f:
+            json.dump(data, f, indent=4)
+
+        print(f"System: {count+1} New Jobs Found\n")
+        # print("No.", side_bar_entry.index(job_entry)+1)
+        # print("Job ID:", job_id, "\nJob Title:", job_title, "\nJob Location:", job_loaction, "\nCompany Name:", company_name, "\nJob URL:", job_url, "\n\n----------------------------------------")
+        count += 1
+
+
+        # Start classifying and labelling
+        locationClassify(new_data)

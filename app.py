@@ -8,7 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
-from src.linkedin import linkdedin
+from src.linkedin.linkedin import linkdedin
 
 # --------------------------------------Initialize Chrome--------------------------------------
 chrome_path = config.chrome_browser_path
@@ -24,7 +24,7 @@ chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
 
-# --------------------------------------Go To The Target URL--------------------------------------
+# --------------------------------------Main--------------------------------------
 
 def main():
     linkdedin(driver)
