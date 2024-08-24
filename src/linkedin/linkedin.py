@@ -117,6 +117,7 @@ def linkdedin(driver):
                 print(f"System: {count+1} New Jobs Found\n")
                 content = f'Job Title:\n{job_title}\n\nLocation:\n{job_loaction}\n\nCompany:\n{company_name}\n\nJob URL:\n{job_url}\n\nSource: \n{job_source}'
                 sendMessage(content)
+                time.sleep(3)
                 count += 1
             
 
