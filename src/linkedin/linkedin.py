@@ -1,4 +1,4 @@
-import time, config, json
+import time, json, config
 
 from src.message import sendMessage
 from src.classify import locationClassify
@@ -79,13 +79,13 @@ def linkdedin(driver):
                 company_name = job_entry.find_element(By.CLASS_NAME, "job-card-container__primary-description").text.strip()
 
                 # Get the job location
-                job_loaction = job_entry.find_element(By.CLASS_NAME, "artdeco-entity-lockup__caption").text.strip()
+                job_location = job_entry.find_element(By.CLASS_NAME, "artdeco-entity-lockup__caption").text.strip()
 
                 new_data = {
                     "job_id": job_id,
                     "job_title": job_title,
                     "company_name": company_name,
-                    "job_location": job_loaction,
+                    "job_location": job_location,
                     "job_url": job_url,
                     "label":{
                         "state":"",
@@ -115,7 +115,7 @@ def linkdedin(driver):
                     json.dump(data, f, indent=4)
 
                 print(f"System: {count+1} New Jobs Found\n")
-                content = f'Job Title:\n{job_title}\n\nLocation:\n{job_loaction}\n\nCompany:\n{company_name}\n\nJob URL:\n{job_url}\n\nSource: \n{job_source}'
+                content = f'Job Title:\n{job_title}\n\nLocation:\n{job_location}\n\nCompany:\n{company_name}\n\nJob URL:\n{job_url}\n\nSource: \n{job_source}'
                 sendMessage(content)
                 time.sleep(3)
                 count += 1
